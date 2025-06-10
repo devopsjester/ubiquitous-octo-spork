@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     permissions:
-      contents: read
+      contents: write # Changed from read to write
       packages: write
 
     steps:
@@ -66,12 +66,7 @@ jobs:
       - name: Set up Python for publishing
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # Use a specific version for twine
-
-      - name: Install publishing dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install twine
+          python-version: '3.10' # Use a specific version
 
       - name: Download all dist artifacts
         uses: actions/download-artifact@v4
@@ -90,10 +85,12 @@ jobs:
           echo "Consolidated dist contents:"
           ls -l dist/
 
-      - name: Publish to GitHub Packages
+      - name: Create GitHub Release and Upload Assets
         env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          TWINE_REPOSITORY_URL: https://pypi.pkg.github.com/${{ github.repository_owner }}/
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python -m twine upload --skip-existing dist/*
+          gh release create ${{ github.ref_name }} \\
+            --repo ${{ github.repository }} \\
+            --title "Release ${{ github.ref_name }}" \\
+            --notes "Automated release for tag ${{ github.ref_name }}" \\
+            dist/*
