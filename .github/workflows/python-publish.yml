@@ -48,7 +48,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dist
+          name: dist-${{ matrix.python-version }}
           path: dist/
           retention-days: 5
 
@@ -59,20 +59,23 @@ jobs:
     permissions:
       contents: read
       packages: write
-    
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+
     steps:
       - uses: actions/checkout@v4
       
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: dist
+          name: dist-${{ matrix.python-version }}
           path: dist/
       
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: ${{ matrix.python-version }}
       
       - name: Install publishing dependencies
         run: |

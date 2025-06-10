@@ -18,8 +18,8 @@ def runner():
 def test_cli_exists(runner):
     """Test that the CLI exists and can be invoked."""
     result = runner.invoke(weather)
-    # Click returns exit code 2 for command groups with no subcommand
-    assert result.exit_code == 2
+    # Click group invoked without a subcommand shows help and exits with 0
+    assert result.exit_code == 0
     assert "Usage:" in result.output
 
 
@@ -61,9 +61,8 @@ def test_weather_group_command_no_args():
     runner = CliRunner()
     result = runner.invoke(weather)
 
-    # Click returns exit code 2 for command groups with no subcommand
-    assert result.exit_code == 2
-    assert "Usage:" in result.output
+    # Click group invoked without a subcommand shows help and exits with 0
+    assert result.exit_code == 0
     assert "Usage:" in result.output
     assert "Commands:" in result.output
 
