@@ -13,7 +13,8 @@
                     "bash": {
                         "path": "/bin/bash"
                     }
-                }
+                },
+                "chat.promptFiles": true
             },
             "extensions": [
                 "ms-python.python",
