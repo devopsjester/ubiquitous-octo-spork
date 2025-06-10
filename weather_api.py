@@ -5,7 +5,6 @@ Handles interactions with weather and location APIs using free services.
 """
 
 import requests
-import json
 
 
 class WeatherService:

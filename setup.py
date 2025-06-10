@@ -3,15 +3,24 @@ Weather CLI Application
 
 A command-line interface for getting weather information and location data using free APIs.
 """
+
 from setuptools import setup, find_packages
 
 # Read requirements
-with open('requirements.txt') as f:
-    requirements = [line.strip() for line in f if line.strip() and not line.startswith(('#', '//'))]
+with open("requirements.txt") as f:
+    requirements = [
+        line.strip() for line in f if line.strip() and not line.startswith(("#", "//"))
+    ]
 
 # Filter out development/build dependencies
-main_requirements = [req for req in requirements 
-                    if not any(dep in req.lower() for dep in ['pytest', 'flake8', 'black', 'setuptools', 'wheel', 'twine'])]
+main_requirements = [
+    req
+    for req in requirements
+    if not any(
+        dep in req.lower()
+        for dep in ["pytest", "flake8", "black", "setuptools", "wheel", "twine"]
+    )
+]
 
 setup(
     name="weather-cli",
@@ -22,12 +31,12 @@ setup(
     author="Assaf Stone",
     author_email="devopsjester@github.com",
     url="https://github.com/devopsjester/ubiquitous-octo-spork",
-    packages=find_packages(exclude=['tests*']),
-    py_modules=['weather', 'weather_api'],
+    packages=find_packages(exclude=["tests*"]),
+    py_modules=["weather", "weather_api"],
     install_requires=main_requirements,
     entry_points={
-        'console_scripts': [
-            'weather=weather:weather',
+        "console_scripts": [
+            "weather=weather:weather",
         ],
     },
     classifiers=[

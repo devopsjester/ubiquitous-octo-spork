@@ -26,6 +26,8 @@
         }
     },
     "postCreateCommand": "if [ -f requirements.txt ]; then pip install -r requirements.txt; fi && if [ -f dev-requirements.txt ]; then pip install -r dev-requirements.txt; fi",
-    "features": {},
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    },
     "remoteUser": "vscode"
 }
