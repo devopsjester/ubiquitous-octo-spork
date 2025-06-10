@@ -16,11 +16,11 @@ def weather():
 
 
 @weather.command()
-@click.option('--zipcode', help='Zip code to get location information for')
+@click.option("--zipcode", help="Zip code to get location information for")
 def where_is(zipcode):
     """Display the city and state for a given location."""
     weather_service = WeatherService()
-    
+
     try:
         if zipcode:
             location_info = weather_service.get_location_by_zipcode(zipcode)
@@ -28,7 +28,9 @@ def where_is(zipcode):
                 city, state = location_info
                 click.echo(f"{zipcode} is in {city}, {state}.")
             else:
-                click.echo(f"Could not find location information for zipcode {zipcode}.")
+                click.echo(
+                    f"Could not find location information for zipcode {zipcode}."
+                )
         else:
             location_info = weather_service.get_current_location()
             if location_info:
@@ -41,11 +43,11 @@ def where_is(zipcode):
 
 
 @weather.command()
-@click.option('--zipcode', help='Zip code to get weather information for')
+@click.option("--zipcode", help="Zip code to get weather information for")
 def current(zipcode):
     """Display the current temperature and weather conditions for a given location."""
     weather_service = WeatherService()
-    
+
     try:
         if zipcode:
             weather_info = weather_service.get_weather_by_zipcode(zipcode)
@@ -53,19 +55,23 @@ def current(zipcode):
         else:
             weather_info = weather_service.get_current_weather()
             location_info = weather_service.get_current_location()
-        
+
         if weather_info and location_info:
             temperature, condition = weather_info
             city, state = location_info
-            click.echo(f"It is currently {temperature}ºF, and {condition} in {city}, {state}.")
+            click.echo(
+                f"It is currently {temperature}ºF, and {condition} in {city}, {state}."
+            )
         else:
             if zipcode:
                 click.echo(f"Could not get weather information for zipcode {zipcode}.")
             else:
-                click.echo("Could not get weather information for your current location.")
+                click.echo(
+                    "Could not get weather information for your current location."
+                )
     except Exception as e:
         click.echo(f"Error: {str(e)}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     weather()

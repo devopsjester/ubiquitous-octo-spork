@@ -1,5 +1,7 @@
 # Weather CLI Application
 
+[![CI/CD](https://github.com/${{ github.repository }}/actions/workflows/python-publish.yml/badge.svg)](https://github.com/${{ github.repository }}/actions/workflows/python-publish.yml)
+
 A command-line interface application for getting current weather information and location data using free APIs.
 
 ## Features
@@ -183,3 +185,40 @@ Feel free to submit issues, feature requests, or pull requests to improve this a
 ## License
 
 This project is open source and available under the MIT License.
+
+## CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration and delivery. The pipeline:
+
+- Runs on every push to `main` and when new version tags are created
+- Tests the package on multiple Python versions (3.9, 3.10, 3.11)
+- Runs code quality checks (flake8 and black)
+- Builds and packages the application
+- Publishes releases to GitHub Packages when version tags are pushed
+
+### Release Process
+
+To create a new release:
+
+1. Update the version in your package files
+2. Create and push a new tag:
+   ```bash
+   git tag v1.0.0  # Use appropriate version number
+   git push origin v1.0.0
+   ```
+3. The GitHub Actions workflow will automatically build and publish the package
+
+### Installing from GitHub Packages
+
+To install the package from GitHub Packages:
+
+1. Authenticate with GitHub Packages
+2. Add this to your `~/.pip/pip.conf`:
+   ```
+   [global]
+   index-url=https://pypi.pkg.github.com/${{ github.repository_owner }}
+   ```
+3. Install the package:
+   ```bash
+   pip install weather-cli
+   ```

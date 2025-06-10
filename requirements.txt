@@ -1,3 +1,13 @@
 # Weather CLI App Dependencies
 click>=8.1.0
 requests>=2.31.0
+
+# Build and Package Dependencies
+setuptools>=69.0.0
+wheel>=0.42.0
+twine>=4.0.0
+
+# Test Dependencies
+pytest>=8.0.0
+flake8>=7.0.0
+black>=24.0.0
