@@ -59,33 +59,41 @@ jobs:
     permissions:
       contents: read
       packages: write
-    strategy:
-      matrix:
-        python-version: ['3.10', '3.11', '3.12']
 
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-${{ matrix.python-version }}
-          path: dist/
-      
-      - name: Set up Python ${{ matrix.python-version }}
+
+      - name: Set up Python for publishing
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
-      
+          python-version: '3.10' # Use a specific version for twine
+
       - name: Install publishing dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install twine
-      
+
+      - name: Download all dist artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all_build_artifacts # Downloads all artifacts into this directory
+
+      - name: Prepare consolidated dist directory
+        run: |
+          mkdir dist
+          echo "Copying artifacts from all_build_artifacts/dist-3.10..."
+          cp all_build_artifacts/dist-3.10/* dist/
+          echo "Copying artifacts from all_build_artifacts/dist-3.11..."
+          cp all_build_artifacts/dist-3.11/* dist/
+          echo "Copying artifacts from all_build_artifacts/dist-3.12..."
+          cp all_build_artifacts/dist-3.12/* dist/
+          echo "Consolidated dist contents:"
+          ls -l dist/
+
       - name: Publish to GitHub Packages
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           TWINE_REPOSITORY_URL: https://pypi.pkg.github.com/${{ github.repository_owner }}
         run: |
-          python -m twine upload dist/*
+          python -m twine upload --skip-existing dist/*
