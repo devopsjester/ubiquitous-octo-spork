@@ -9,5 +9,6 @@ twine>=4.0.0
 
 # Test Dependencies
 pytest>=8.0.0
+pytest-mock>=3.10.0
 flake8>=7.0.0
 black>=24.0.0
